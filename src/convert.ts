@@ -1,17 +1,19 @@
 import { OOPXMLNode as XMLNode } from '@tomiolah1998/ts-xml';
-import { Song } from "./types";
+import { ISongCollection, Song } from "./types";
 
-export const songToXML = (song: Song): XMLNode => {
+export const songToXML = (song: Song, collection?: ISongCollection): XMLNode => {
   const root = new XMLNode('song', {
     attributes: {
       xmlns: "http://openlyrics.info/namespace/2009/song",
       version: "0.9",
     }
   });
+  const collectionOrdinalNumber = collection && collection.songCollectionElements.length > 0 ? collection.songCollectionElements[0].ordinalNumber : undefined;
+  const songTitle = `${collectionOrdinalNumber ? `${collectionOrdinalNumber}. ` : ''}${song.title}`;
   const properties = new XMLNode('properties', {
     value: [
       new XMLNode('titles').appendValue((
-        new XMLNode('title', { value: [song.title] })
+        new XMLNode('title', { value: [songTitle] })
       ))
     ]
   });

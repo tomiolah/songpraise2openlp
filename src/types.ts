@@ -3,7 +3,7 @@ export type Song = {
   verses: Verse[];
   publish: boolean;
   published: boolean;
-  uuid: null | string;
+  uuid: string;
   createdDate: string;
   modifiedDate: string;
   versionGroup: null | string;
@@ -15,3 +15,17 @@ export type Verse = {
   chorus: boolean;
   secondText: null | string;
 };
+
+export interface ISongCollection {
+  uuid:                   string;
+  createdDate:            number;
+  modifiedDate:           number;
+  songCollectionElements: ISongCollectionElement[];
+  name:                   string;
+  languageUuid:           string;
+}
+
+export interface ISongCollectionElement {
+  ordinalNumber: string;
+  songUuid:      string;
+}

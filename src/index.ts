@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { Promise as P } from 'bluebird';
 import { songToXML } from "./convert";
-import { downloadSongpraiseData } from "./downloader";
+import { downloadSongpraiseData, getCollectionForSong } from "./downloader";
 
 const outDir = path.join(process.cwd(), 'output');
 
@@ -38,26 +39,47 @@ const rewriteMap: {
     '”': '', '“': '', ';': '',
 };
 
-downloadSongpraiseData().then(v => {
+downloadSongpraiseData().then(async (songs) =>
+  P.map(songs, async (value) => {
+    console.log(`Getting collection for ${value.title}`);
+    return {
+      song: value,
+      collections: await getCollectionForSong(value.uuid),
+    };
+  }, { concurrency: 3 })
+).then((res) => {
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir);
   }
   const map = Object.entries(rewriteMap);
-  const songs = v.map(s => ({
-    title: map.reduce(
-      (p, c) => {
-        const re = new RegExp(c[0].replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
-        return p.replace(re, c[1]);
-      },
-      s.title
-    ).replace('__', '_'),
-    data: songToXML(s).printNode({
-      indent: 0,
-      newLines: false,
-      shortHand: true,
-      indentIncrement: 0,
-    })
-  })).forEach(v => {
+  res.map(({ song: s, collections }) => {
+    console.log(`Processing song ${s.title}${collections ? 'with' : 'without'} colelction data.`);
+    return {
+      title: map.reduce(
+        (p, c) => {
+          const re = new RegExp(c[0].replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+          return p.replace(re, c[1]);
+        },
+        `${
+          collections
+          && collections.length > 0
+          && collections[0]
+          && collections[0].songCollectionElements
+          && collections[0].songCollectionElements.length > 0
+          && collections[0].songCollectionElements[0]
+          && collections[0].songCollectionElements[0].ordinalNumber
+          ? `${collections[0].songCollectionElements[0].ordinalNumber}. `
+          : ''
+        }${s.title}`
+      ).replace('__', '_'),
+      data: songToXML(s, collections && collections.length > 0 ? collections[0] : undefined).printNode({
+        indent: 0,
+        newLines: false,
+        shortHand: true,
+        indentIncrement: 0,
+      })
+    };
+  }).forEach(v => {
     fs.writeFileSync(path.join(outDir, `${v.title}.xml`), v.data);
     console.log(`Wrote ${v.title}.xml`)
   });
