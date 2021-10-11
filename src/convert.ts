@@ -14,7 +14,21 @@ export const songToXML = (song: Song, collection?: ISongCollection): XMLNode => 
     value: [
       new XMLNode('titles').appendValue((
         new XMLNode('title', { value: [songTitle] })
-      ))
+      )),
+      ...(
+        collection && collectionOrdinalNumber ? [
+          new XMLNode('songbooks', {
+            value: [
+              new XMLNode('songbook', {
+                attributes: {
+                  name: collection.name,
+                  entry: collectionOrdinalNumber,
+                }
+              }),
+            ],
+          }),
+        ] : []
+      ),
     ]
   });
 
