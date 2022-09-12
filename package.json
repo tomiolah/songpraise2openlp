@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "build": "tsc",
-    "prepublish": "tsc"
+    "test": "xo"
   },
   "repository": {
     "type": "git",
@@ -22,14 +22,39 @@
   "dependencies": {
     "@tomiolah1998/ts-xml": "^1.0.2",
     "@tsconfig/recommended": "^1.0.1",
-    "@types/node": "^14.14.22",
+    "@types/lodash": "^4.14.185",
     "axios": "^0.21.1",
     "bluebird": "^3.7.2",
+    "lodash": "^4.17.21",
     "ts-node": "^9.1.1",
-    "tsc": "^1.20150623.0",
+    "tsc": "^2.0.4",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.36"
+    "@types/bluebird": "^3.5.36",
+    "@types/node": "^14.18.28",
+    "xo": "^0.52.3"
+  },
+  "xo": {
+    "space": true,
+    "arrow-parens": "always",
+    "rules": {
+      "unicorn/no-await-expression-member": "off",
+      "new-cap": "off",
+      "@typescript-eslint/naming-convention": "off",
+      "@typescript-eslint/object-curly-spacing": "off",
+      "n/file-extension-in-import": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "no-multi-spaces": "off",
+      "quote-props": "off",
+      "unicorn/no-array-reduce": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "arrow-parens": "off",
+      "object-shorthand": "off",
+      "import/extensions": "off",
+      "max-depth": "off",
+      "@typescript-eslint/no-implicit-any-catch": "off"
+    }
   }
 }
