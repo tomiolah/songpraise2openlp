@@ -6,26 +6,31 @@ export type Song = {
   uuid: string;
   createdDate: string;
   modifiedDate: string;
-  versionGroup: null | string;
+  versionGroup: undefined | string;
 };
 
 export type Verse = {
-  uuid: null;
+  uuid: undefined;
   text: string;
   chorus: boolean;
-  secondText: null | string;
+  secondText: undefined | string;
 };
 
-export interface ISongCollection {
-  uuid:                   string;
-  createdDate:            number;
-  modifiedDate:           number;
+export type ISongCollection = {
+  uuid: string;
+  createdDate: number;
+  modifiedDate: number;
   songCollectionElements: ISongCollectionElement[];
-  name:                   string;
-  languageUuid:           string;
-}
+  name: string;
+  languageUuid: string;
+};
 
-export interface ISongCollectionElement {
+export type ISongCollectionElement = {
   ordinalNumber: string;
-  songUuid:      string;
+  songUuid: string;
+};
+
+export enum ConversionTargets {
+  OpenLyricsXML = 'open-lyrics',
+  PlainText = 'plaintext',
 }
