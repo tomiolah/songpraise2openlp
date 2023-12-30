@@ -1,6 +1,6 @@
 export type Song = {
   title: string;
-  verses: Verse[];
+  songVerseDTOS: Verse[];
   publish: boolean;
   published: boolean;
   uuid: string;

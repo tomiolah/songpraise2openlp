@@ -40,7 +40,8 @@ const processSong = ({ song, targets, collections }: {
 async function Main(targets: ConversionTargets[]) {
   const songs = await downloadSongpraiseData();
   const songsWithCollections = await P.map(
-    songs.slice(0, 5),
+    // songs.slice(0, 2), // for debug purposes, only process the first two songs
+    songs,
     async (value) => {
       console.log(`Getting collection for ${value.title}`);
       return {
@@ -84,8 +85,8 @@ async function Main(targets: ConversionTargets[]) {
 }
 
 Main([
-  // ConversionTargets.OpenLyricsXML,
-  ConversionTargets.PlainText,
+  ConversionTargets.OpenLyricsXML,
+  // ConversionTargets.PlainText,
 ]).catch((error) => {
   console.error(error);
 });

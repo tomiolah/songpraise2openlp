@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { ISongCollection, Song } from './types';
 
-const DOWNLOAD_URL = 'https://github.com/tomiolah/mkmbgy-db/blob/main/data.json?raw=true';
+const DOWNLOAD_URL = 'https://www.songpraise.com/api/songs/language/5a2d253b8c270b37345af0c3';
 
 const SONGCOLLECTION_URL = (songUuid: string) => `http://www.songpraise.com/api/songCollections/song/${songUuid}`;
 

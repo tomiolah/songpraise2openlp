@@ -5,7 +5,7 @@ export const PlaintextConverter: IConverter = {
   getFilename: (title) => `${title}.txt`,
   convertSong: ({ song, collection }) => {
     const title = `${collectionNumber(collection ? [collection] : undefined)}${song.title}`;
-    const verses = song.verses.map((verse) => verse.text).join('\n\n');
+    const verses = song.songVerseDTOS.map((verse) => verse.text).join('\n\n');
     return `${title}\n\n${verses}\n`;
   },
 };

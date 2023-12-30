@@ -47,8 +47,9 @@ const songToOpenLyricsXML = (song: Song, collection?: ISongCollection): XMLNode 
     return `c${temporary}`;
   };
 
+  console.log("[DEBUG]", song);
   const lyrics = new XMLNode('lyrics', {
-    value: song.verses.map(
+    value: song?.songVerseDTOS?.map(
       v =>
         new XMLNode('verse', {
           attributes: {
